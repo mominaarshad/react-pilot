@@ -1,40 +1,26 @@
-import {useReducer} from 'react';
+import { createContext, useContext, useState } from 'react';
 
-interface State {
-   count: number
-};
+type Theme = "light" | "dark" | "system";
+const ThemeContext = createContext<Theme>("system");
 
-type CounterAction =
-  | { type: "reset" }
-  | { type: "setCount"; value: State["count"] }
+const useGetTheme = () => useContext(ThemeContext);
 
-const initialState: State = { count: 0 };
+export default function MyApp() {
+  const [theme, setTheme] = useState<Theme>('light');
 
-function stateReducer(state: State, action: CounterAction): State {
-  switch (action.type) {
-    case "reset":
-      return initialState;
-    case "setCount":
-      return { ...state, count: action.value };
-    default:
-      throw new Error("Unknown action");
-  }
+  return (
+    <ThemeContext value={theme}>
+      <MyComponent />
+    </ThemeContext>
+  )
 }
 
-export default function App() {
-  const [state, dispatch] = useReducer(stateReducer, initialState);
-
-  const addFive = () => dispatch({ type: "setCount", value: state.count + 5 });
-  const reset = () => dispatch({ type: "reset" });
+function MyComponent() {
+  const theme = useGetTheme();
 
   return (
     <div>
-      <h1>Welcome to my counter</h1>
-
-      <p>Count: {state.count}</p>
-      <button onClick={addFive}>Add 5</button>
-      <button onClick={reset}>Reset</button>
+      <p>Current theme: {theme}</p>
     </div>
-  );
+  )
 }
-
