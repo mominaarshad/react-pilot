@@ -1,26 +1,16 @@
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 
-type Theme = "light" | "dark" | "system";
-const ThemeContext = createContext<Theme>("system");
+export default function Form() {
+  const [value, setValue] = useState("Change me");
 
-const useGetTheme = () => useContext(ThemeContext);
-
-export default function MyApp() {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  return (
-    <ThemeContext value={theme}>
-      <MyComponent />
-    </ThemeContext>
-  )
-}
-
-function MyComponent() {
-  const theme = useGetTheme();
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(event.currentTarget.value);
+  }
 
   return (
-    <div>
-      <p>Current theme: {theme}</p>
-    </div>
-  )
+    <>
+      <input value={value} onChange={handleChange} />
+      <p>Value: {value}</p>
+    </>
+  );
 }
