@@ -1,12 +1,14 @@
-import React from "react";
-
-function App(): JSX.Element {
+function MyButton({ title }: { title: string }) {
   return (
-    <div>
-      <h1>Hello React + TypeScript </h1>
-      <p>My pilot project now uses TypeScript!</p>
-    </div>
+    <button>{title}</button>
   );
 }
 
-export default App;
+export default function MyApp() {
+  return (
+    <div>
+      <h1>Welcome to my app</h1>
+      <MyButton title="I'm a button" />
+    </div>
+  );
+}
